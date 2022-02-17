@@ -8,8 +8,8 @@ namespace TablaDePosiciones
         
         public static void Main()
         {
-             Tabla tabla = new Tabla();
-        string[,] datos;
+            Tabla tabla = new Tabla();
+            string[,] datos;
            
 
             bool salir=false;
@@ -23,24 +23,20 @@ namespace TablaDePosiciones
                 switch (opcion)
                 {
                     case 1:
-                       datos= tabla.obtenerResultadosEquipo();
+                        datos = tabla.obtenerResultadosEquipo();
                         string[] local = new string[3];
                         string[] visitante = new string[3];
                         
-                            for(int j = 0; j < datos.GetLength(1); j++)
-                            {
-                                local[j] = datos[0,j];
-                            }
-                            for (int j = 0; j < datos.GetLength(1); j++)
-                            {
+                        for(int j = 0; j < datos.GetLength(1); j++)
+                        {
+                            local[j] = datos[0,j];
                             visitante[j] = datos[1, j];
                         }
-                        
                         tabla.agregarDatosALaTabla(local,"l");
                         tabla.agregarDatosALaTabla(visitante, "v");
                         break;
-
                     case 2:
+                        tabla.imprimirMatrizDeEquipos();
                         break;
                     case 3:
                         Console.WriteLine("Saliste de la aplicación");
