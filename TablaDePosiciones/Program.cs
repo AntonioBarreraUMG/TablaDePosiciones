@@ -1,11 +1,17 @@
 ﻿using System;
+using TablaDePosiciones.Negocios;
 
 namespace TablaDePosiciones
 {
     class Program
     {
+        
         public static void Main()
         {
+             Tabla tabla = new Tabla();
+        string[,] datos;
+           
+
             bool salir=false;
             while (!salir) {
                 Console.WriteLine("1. Agregar Partido: ");
@@ -17,6 +23,21 @@ namespace TablaDePosiciones
                 switch (opcion)
                 {
                     case 1:
+                       datos= tabla.obtenerResultadosEquipo();
+                        string[] local = new string[3];
+                        string[] visitante = new string[3];
+                        
+                            for(int j = 0; j < datos.GetLength(1); j++)
+                            {
+                                local[j] = datos[0,j];
+                            }
+                            for (int j = 0; j < datos.GetLength(1); j++)
+                            {
+                            visitante[j] = datos[1, j];
+                        }
+                        
+                        tabla.agregarDatosALaTabla(local,"l");
+                        tabla.agregarDatosALaTabla(visitante, "v");
                         break;
 
                     case 2:

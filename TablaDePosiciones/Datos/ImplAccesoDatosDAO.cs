@@ -8,12 +8,12 @@ namespace TablaDePosiciones.Datos
 {
      class ImplAccesoDatosDAO : InterfazAccesoDatos
     {
-        public bool escribirDatos(List<EquipoDTO> lista)
+        public bool escribirDatos(string[,] matriz)
         {
             throw new NotImplementedException();
         }
 
-        public List<EquipoDTO> leerDatos()
+        public string[,] leerDatos()
         {
             throw new NotImplementedException();
         }
