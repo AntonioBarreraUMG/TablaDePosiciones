@@ -21,7 +21,7 @@ namespace TablaDePosiciones.Negocios
         private const int DIFERENCIA_DE_GOLES = 9;
         private InterfazAccesoDatos accesodatos = new ImplAccesoDatosDAO();
 
-        private string[,] matrizEquipos = new string[2,10] { { "jojo", "1", "3", "1", "0", "0", "4", "2", "4", "2" }, { "jiji", "2", "4", "2", "1", "1", "5", "3", "5", "3" } };
+        private string[,] matrizEquipos = new string[2,10] { { "jojo", "1", "4", "1", "0", "0", "4", "2", "4", "2" }, { "jiji", "2", "4", "2", "1", "1", "5", "3", "5", "3" } };
         public string[,] obtenerResultadosEquipo()
         {   
             Console.Write("Nombre equipo local:       ");
@@ -126,7 +126,7 @@ namespace TablaDePosiciones.Negocios
         {
             //string[,] matrizEquipos = accesodatos.leerDatos();
             string[,] nuevaMatrizEquipos = new string[matrizEquipos.GetLength(0) + 1, matrizEquipos.GetLength(1)];
-            for (int i = 0; i < nuevaMatrizEquipos.GetLength(0); i++)
+            for (int i = 0; i < matrizEquipos.GetLength(0); i++)
             {
                 for (int j = 0; j < nuevaMatrizEquipos.GetLength(1); i++)
                 {
@@ -140,7 +140,7 @@ namespace TablaDePosiciones.Negocios
             return nuevaMatrizEquipos;
         }
 
-        private string[,] ordenarBurbujaDescendente()
+        private string[,] ordenarBurbujaDescendente(string[,] matrizEquipos)
         {
             for (int x = 0; x < matrizEquipos.GetLength(0); x++)
             {
@@ -150,31 +150,24 @@ namespace TablaDePosiciones.Negocios
                     int indiceSiguienteElemento = indiceActual + 1;
                     if (Convert.ToInt32(matrizEquipos[indiceActual, PUNTOS]) < Convert.ToInt32(matrizEquipos[indiceSiguienteElemento, PUNTOS]))
                     {
-                        int temporal = Convert.ToInt32(matrizEquipos[indiceActual, PUNTOS]);
-                        matrizEquipos[indiceActual, PUNTOS] = matrizEquipos[indiceSiguienteElemento, PUNTOS];
-                        matrizEquipos[indiceSiguienteElemento, PUNTOS] = Convert.ToString(temporal);
+                        matrizEquipos = IntercambioFilasMatriz(matrizEquipos, indiceActual, indiceSiguienteElemento);
                     }
                     else if (Convert.ToInt32(matrizEquipos[indiceActual, PUNTOS]) == Convert.ToInt32(matrizEquipos[indiceSiguienteElemento, PUNTOS]))
                     {
                         if (Convert.ToInt32(matrizEquipos[indiceActual, DIFERENCIA_DE_GOLES]) < Convert.ToInt32(matrizEquipos[indiceSiguienteElemento, DIFERENCIA_DE_GOLES]))
                         {
-                            int temporal = Convert.ToInt32(matrizEquipos[indiceActual, DIFERENCIA_DE_GOLES]);
-                            matrizEquipos[indiceActual, DIFERENCIA_DE_GOLES] = matrizEquipos[indiceSiguienteElemento, DIFERENCIA_DE_GOLES];
-                            matrizEquipos[indiceSiguienteElemento, DIFERENCIA_DE_GOLES] = Convert.ToString(temporal);
+                            matrizEquipos = IntercambioFilasMatriz(matrizEquipos, indiceActual, indiceSiguienteElemento);
                         } else if (Convert.ToInt32(matrizEquipos[indiceActual, DIFERENCIA_DE_GOLES]) == Convert.ToInt32(matrizEquipos[indiceSiguienteElemento, DIFERENCIA_DE_GOLES]))
                         {
                             if (Convert.ToInt32(matrizEquipos[indiceActual, GOLES_A_FAVOR]) < Convert.ToInt32(matrizEquipos[indiceSiguienteElemento, GOLES_A_FAVOR]))
                             {
-                                int temporal = Convert.ToInt32(matrizEquipos[indiceActual, GOLES_A_FAVOR]);
-                                matrizEquipos[indiceActual, GOLES_A_FAVOR] = matrizEquipos[indiceSiguienteElemento, GOLES_A_FAVOR];
-                                matrizEquipos[indiceSiguienteElemento, GOLES_A_FAVOR] = Convert.ToString(temporal);
+                                matrizEquipos = IntercambioFilasMatriz(matrizEquipos, indiceActual, indiceSiguienteElemento);
+
                             } else if (Convert.ToInt32(matrizEquipos[indiceActual, GOLES_A_FAVOR]) == Convert.ToInt32(matrizEquipos[indiceSiguienteElemento, GOLES_A_FAVOR]))
                             {
                                 if (Convert.ToInt32(matrizEquipos[indiceActual, GOLES_DE_VISITANTE]) < Convert.ToInt32(matrizEquipos[indiceSiguienteElemento, GOLES_DE_VISITANTE]))
                                 {
-                                    int temporal = Convert.ToInt32(matrizEquipos[indiceActual, GOLES_DE_VISITANTE]);
-                                    matrizEquipos[indiceActual, GOLES_DE_VISITANTE] = matrizEquipos[indiceSiguienteElemento, GOLES_DE_VISITANTE];
-                                    matrizEquipos[indiceSiguienteElemento, GOLES_DE_VISITANTE] = Convert.ToString(temporal);
+                                    matrizEquipos = IntercambioFilasMatriz(matrizEquipos, indiceActual, indiceSiguienteElemento);
                                 }
                             }
                         }
@@ -186,15 +179,43 @@ namespace TablaDePosiciones.Negocios
     
         public void imprimirMatrizDeEquipos()
         {
-            string[,] matriz = ordenarBurbujaDescendente();
+            string[,] matriz = ordenarBurbujaDescendente(matrizEquipos);
+            Console.WriteLine("Nombre   J     P    PG    PE    PP    GF    GC    GV    DF");
             for (int i = 0; i < matriz.GetLength(0); i++)
             {
                 for (int j = 0; j < matriz.GetLength(1); j++)
                 {
-                    Console.Write(matriz[i, j], " ");
+
+                    Console.Write(matriz[i, j] + "     ");
                 }
                 Console.WriteLine();
             }
+        }
+
+        private string[] ObtenerVectorDeMatriz(string[,] matri, int fila)
+        {
+            string[] vectorFila= new string[matri.GetLength(1)];
+            for (int i = 0; i < matri.GetLength(1); i++)
+            {
+                vectorFila[i] = matri[fila, i];
+
+            }
+            return vectorFila;
+        }
+
+        private string[,] IntercambioFilasMatriz(string[,] matrizz, int filaActual, int filaSiguiente)
+        {
+            string[,] nuevaMatriz = matrizz;
+            string[] vectorActual = ObtenerVectorDeMatriz(matrizz, filaActual);
+            string[] vectorSiguiente = ObtenerVectorDeMatriz(matrizz, filaSiguiente);
+            for(int i=0; i < nuevaMatriz.GetLength(1); i++)
+            {
+              nuevaMatriz[filaActual, i]= vectorSiguiente[i];
+
+              nuevaMatriz[filaSiguiente, i] = vectorActual[i];
+            }
+
+            return nuevaMatriz;
         }
 
     }
