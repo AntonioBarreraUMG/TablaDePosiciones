@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,8 @@ namespace TablaDePosiciones.Negocios
 {
     class Tabla
     {
+
+
         private const int NOMBRE = 0;
         private const int JUEGOS = 1;
         private const int PUNTOS = 2;
@@ -21,7 +24,7 @@ namespace TablaDePosiciones.Negocios
         private const int DIFERENCIA_DE_GOLES = 9;
         private InterfazAccesoDatos accesodatos = new ImplAccesoDatosDAO();
 
-        private string[,] matrizEquipos = new string[2,10] { { "jojo", "1", "4", "1", "0", "0", "4", "2", "4", "2" }, { "jiji", "2", "4", "2", "1", "1", "5", "3", "5", "3" } };
+       // private string[,] matrizEquiposos = new string[2,10] { { "jojo", "1", "4", "1", "0", "0", "4", "2", "4", "2" }, { "jiji", "2", "4", "2", "1", "1", "5", "3", "5", "3" } };
         public string[,] obtenerResultadosEquipo()
         {   
             Console.Write("Nombre equipo local:       ");
@@ -38,14 +41,19 @@ namespace TablaDePosiciones.Negocios
 
         private int equipoExiste(string nombre)
         {
-            //string[,] matrizEquipos = accesodatos.leerDatos();
-            for (int i = 0; i < matrizEquipos.GetLength(0); i++)
-            {
+            string[,] matrizEquipos = accesodatos.leerDatos();
+            int resultado;
+
+            if (matrizEquipos!=null) { 
+                for (int i = 0; i < matrizEquipos.GetLength(0); i++) { 
+            
                 if (nombre == matrizEquipos[i, NOMBRE])
                 {
                     return i;
                 }
             }
+            }
+
             return -1;
         }
 
@@ -83,34 +91,37 @@ namespace TablaDePosiciones.Negocios
         {
             string[] datosCalculados = calcularDatosEquipoNuevo(equipoNuevo, condicion);
             string[] equipo;
-            //string[,] matrizEquipos = accesodatos.leerDatos();
-
-            if (equipoExiste(equipoNuevo[NOMBRE]) < 0)
+            string[,] matrizEquipos = accesodatos.leerDatos();
+            if (matrizEquipos != null)
             {
-                equipo = new string[] { equipoNuevo[NOMBRE], "0", "0", "0", "0", "0", "0", "0", "0", "0" };
-                equipo = sumaDatosEquipos(equipo, datosCalculados);
-                matrizEquipos = agregarArregloALaMatriz(equipo);
-            }
-            else
-            {
-                equipo = new string[matrizEquipos.GetLength(1)];
-                for (int i = 0; i < equipo.Length; i++)
+                if (equipoExiste(equipoNuevo[NOMBRE]) < 0)
                 {
-                    equipo[i] = matrizEquipos[equipoExiste(equipoNuevo[NOMBRE]), i];
+                    equipo = new string[] { equipoNuevo[NOMBRE], "0", "0", "0", "0", "0", "0", "0", "0", "0" };
+                    equipo = sumaDatosEquipos(equipo, datosCalculados);
+                    matrizEquipos = agregarArregloALaMatriz(equipo);
                 }
-                equipo = sumaDatosEquipos(equipo, datosCalculados);
-                for (int i = 0; i < equipo.Length; i++)
+                else
                 {
-                    matrizEquipos[equipoExiste(equipoNuevo[NOMBRE]), i] = equipo[i];
+                    equipo = new string[matrizEquipos.GetLength(1)];
+                    for (int i = 0; i < equipo.Length; i++)
+                    {
+                        equipo[i] = matrizEquipos[equipoExiste(equipoNuevo[NOMBRE]), i];
+                    }
+                    equipo = sumaDatosEquipos(equipo, datosCalculados);
+                    for (int i = 0; i < equipo.Length; i++)
+                    {
+                        matrizEquipos[equipoExiste(equipoNuevo[NOMBRE]), i] = equipo[i];
+                    }
+                }
+                for (int i = 0; i < matrizEquipos.GetLength(0); i++)
+                {
+                    for (int j = 0; j < matrizEquipos.GetLength(1); j++)
+                    {
+                        Console.WriteLine(matrizEquipos[i, j]);
+                    }
                 }
             }
-            for (int i = 0; i < matrizEquipos.GetLength(0); i++) {
-                for (int j = 0; j < matrizEquipos.GetLength(1); j++)
-                {
-                    Console.WriteLine(matrizEquipos[i, j]);
-                }
-            }
-           // accesodatos.escribirDatos(matrizEquipos);
+           accesodatos.escribirDatos(matrizEquipos);
             
         }
 
@@ -124,50 +135,59 @@ namespace TablaDePosiciones.Negocios
 
         private string[,] agregarArregloALaMatriz(string[] arreglo)
         {
-            //string[,] matrizEquipos = accesodatos.leerDatos();
-            string[,] nuevaMatrizEquipos = new string[matrizEquipos.GetLength(0) + 1, matrizEquipos.GetLength(1)];
-            for (int i = 0; i < matrizEquipos.GetLength(0); i++)
+            string[,] matrizEquipos = accesodatos.leerDatos();
+            if (matrizEquipos != null)
             {
-                for (int j = 0; j < nuevaMatrizEquipos.GetLength(1); i++)
+                string[,] nuevaMatrizEquipos = new string[matrizEquipos.GetLength(0) + 1, matrizEquipos.GetLength(1)];
+                for (int i = 0; i < matrizEquipos.GetLength(0); i++)
                 {
-                    nuevaMatrizEquipos[i, j] = matrizEquipos[i, j];
+                    for (int j = 0; j < nuevaMatrizEquipos.GetLength(1); i++)
+                    {
+                        nuevaMatrizEquipos[i, j] = matrizEquipos[i, j];
+                    }
                 }
+                for (int i = 0; i < nuevaMatrizEquipos.GetLength(1); i++)
+                {
+                    nuevaMatrizEquipos[nuevaMatrizEquipos.GetLength(0) - 1, i] = arreglo[i];
+                }
+                return nuevaMatrizEquipos;
             }
-            for (int i = 0; i < nuevaMatrizEquipos.GetLength(1); i++)
-            {
-                nuevaMatrizEquipos[nuevaMatrizEquipos.GetLength(0) - 1, i] = arreglo[i];
-            }
-            return nuevaMatrizEquipos;
+            return matrizEquipos;
         }
 
         private string[,] ordenarBurbujaDescendente(string[,] matrizEquipos)
         {
-            for (int x = 0; x < matrizEquipos.GetLength(0); x++)
+            if (matrizEquipos != null)
             {
-
-                for (int indiceActual = 0; indiceActual < matrizEquipos.GetLength(0) - 1; indiceActual++)
+                for (int x = 0; x < matrizEquipos.GetLength(0); x++)
                 {
-                    int indiceSiguienteElemento = indiceActual + 1;
-                    if (Convert.ToInt32(matrizEquipos[indiceActual, PUNTOS]) < Convert.ToInt32(matrizEquipos[indiceSiguienteElemento, PUNTOS]))
+
+                    for (int indiceActual = 0; indiceActual < matrizEquipos.GetLength(0) - 1; indiceActual++)
                     {
-                        matrizEquipos = IntercambioFilasMatriz(matrizEquipos, indiceActual, indiceSiguienteElemento);
-                    }
-                    else if (Convert.ToInt32(matrizEquipos[indiceActual, PUNTOS]) == Convert.ToInt32(matrizEquipos[indiceSiguienteElemento, PUNTOS]))
-                    {
-                        if (Convert.ToInt32(matrizEquipos[indiceActual, DIFERENCIA_DE_GOLES]) < Convert.ToInt32(matrizEquipos[indiceSiguienteElemento, DIFERENCIA_DE_GOLES]))
+                        int indiceSiguienteElemento = indiceActual + 1;
+                        if (Convert.ToInt32(matrizEquipos[indiceActual, PUNTOS]) < Convert.ToInt32(matrizEquipos[indiceSiguienteElemento, PUNTOS]))
                         {
                             matrizEquipos = IntercambioFilasMatriz(matrizEquipos, indiceActual, indiceSiguienteElemento);
-                        } else if (Convert.ToInt32(matrizEquipos[indiceActual, DIFERENCIA_DE_GOLES]) == Convert.ToInt32(matrizEquipos[indiceSiguienteElemento, DIFERENCIA_DE_GOLES]))
+                        }
+                        else if (Convert.ToInt32(matrizEquipos[indiceActual, PUNTOS]) == Convert.ToInt32(matrizEquipos[indiceSiguienteElemento, PUNTOS]))
                         {
-                            if (Convert.ToInt32(matrizEquipos[indiceActual, GOLES_A_FAVOR]) < Convert.ToInt32(matrizEquipos[indiceSiguienteElemento, GOLES_A_FAVOR]))
+                            if (Convert.ToInt32(matrizEquipos[indiceActual, DIFERENCIA_DE_GOLES]) < Convert.ToInt32(matrizEquipos[indiceSiguienteElemento, DIFERENCIA_DE_GOLES]))
                             {
                                 matrizEquipos = IntercambioFilasMatriz(matrizEquipos, indiceActual, indiceSiguienteElemento);
-
-                            } else if (Convert.ToInt32(matrizEquipos[indiceActual, GOLES_A_FAVOR]) == Convert.ToInt32(matrizEquipos[indiceSiguienteElemento, GOLES_A_FAVOR]))
+                            }
+                            else if (Convert.ToInt32(matrizEquipos[indiceActual, DIFERENCIA_DE_GOLES]) == Convert.ToInt32(matrizEquipos[indiceSiguienteElemento, DIFERENCIA_DE_GOLES]))
                             {
-                                if (Convert.ToInt32(matrizEquipos[indiceActual, GOLES_DE_VISITANTE]) < Convert.ToInt32(matrizEquipos[indiceSiguienteElemento, GOLES_DE_VISITANTE]))
+                                if (Convert.ToInt32(matrizEquipos[indiceActual, GOLES_A_FAVOR]) < Convert.ToInt32(matrizEquipos[indiceSiguienteElemento, GOLES_A_FAVOR]))
                                 {
                                     matrizEquipos = IntercambioFilasMatriz(matrizEquipos, indiceActual, indiceSiguienteElemento);
+
+                                }
+                                else if (Convert.ToInt32(matrizEquipos[indiceActual, GOLES_A_FAVOR]) == Convert.ToInt32(matrizEquipos[indiceSiguienteElemento, GOLES_A_FAVOR]))
+                                {
+                                    if (Convert.ToInt32(matrizEquipos[indiceActual, GOLES_DE_VISITANTE]) < Convert.ToInt32(matrizEquipos[indiceSiguienteElemento, GOLES_DE_VISITANTE]))
+                                    {
+                                        matrizEquipos = IntercambioFilasMatriz(matrizEquipos, indiceActual, indiceSiguienteElemento);
+                                    }
                                 }
                             }
                         }
@@ -175,32 +195,43 @@ namespace TablaDePosiciones.Negocios
                 }
             }
             return matrizEquipos;
+            
+
         }
-    
+
         public void imprimirMatrizDeEquipos()
         {
-            string[,] matriz = ordenarBurbujaDescendente(matrizEquipos);
-            Console.WriteLine("Nombre   J     P    PG    PE    PP    GF    GC    GV    DF");
-            for (int i = 0; i < matriz.GetLength(0); i++)
+            string[,] matrizEquipos = accesodatos.leerDatos();
+            if (matrizEquipos != null)
             {
-                for (int j = 0; j < matriz.GetLength(1); j++)
+                string[,] matriz = ordenarBurbujaDescendente(matrizEquipos);
+                Console.WriteLine("Nombre   J     P    PG    PE    PP    GF    GC    GV    DF");
+                for (int i = 0; i < matriz.GetLength(0); i++)
                 {
+                    for (int j = 0; j < matriz.GetLength(1); j++)
+                    {
 
-                    Console.Write(matriz[i, j] + "     ");
+                        Console.Write(matriz[i, j] + "     ");
+                    }
+                    Console.WriteLine();
                 }
-                Console.WriteLine();
             }
         }
 
         private string[] ObtenerVectorDeMatriz(string[,] matri, int fila)
         {
-            string[] vectorFila= new string[matri.GetLength(1)];
-            for (int i = 0; i < matri.GetLength(1); i++)
+            string[] vectorFila=null;
+            if (matri != null)
             {
-                vectorFila[i] = matri[fila, i];
+                vectorFila = new string[matri.GetLength(1)];
+                for (int i = 0; i < matri.GetLength(1); i++)
+                {
+                    vectorFila[i] = matri[fila, i];
 
+                }
             }
             return vectorFila;
+
         }
 
         private string[,] IntercambioFilasMatriz(string[,] matrizz, int filaActual, int filaSiguiente)
@@ -208,11 +239,14 @@ namespace TablaDePosiciones.Negocios
             string[,] nuevaMatriz = matrizz;
             string[] vectorActual = ObtenerVectorDeMatriz(matrizz, filaActual);
             string[] vectorSiguiente = ObtenerVectorDeMatriz(matrizz, filaSiguiente);
-            for(int i=0; i < nuevaMatriz.GetLength(1); i++)
+            if (matrizz != null)
             {
-              nuevaMatriz[filaActual, i]= vectorSiguiente[i];
+                for (int i = 0; i < nuevaMatriz.GetLength(1); i++)
+                {
+                    nuevaMatriz[filaActual, i] = vectorSiguiente[i];
 
-              nuevaMatriz[filaSiguiente, i] = vectorActual[i];
+                    nuevaMatriz[filaSiguiente, i] = vectorActual[i];
+                }
             }
 
             return nuevaMatriz;

@@ -13,3 +13,5 @@ C:\Users\linda\Desktop\umg linda daniela\SEMESTRE 5\Progra 3\Proyecto1\TablaDePo
 C:\Users\linda\Desktop\umg linda daniela\SEMESTRE 5\Progra 3\Proyecto1\TablaDePosiciones\TablaDePosiciones\obj\Debug\net6.0\ref\TablaDePosiciones.dll
 C:\Users\linda\Desktop\umg linda daniela\SEMESTRE 5\Progra 3\Proyecto1\TablaDePosiciones\TablaDePosiciones\obj\Debug\net6.0\TablaDePosiciones.pdb
 C:\Users\linda\Desktop\umg linda daniela\SEMESTRE 5\Progra 3\Proyecto1\TablaDePosiciones\TablaDePosiciones\obj\Debug\net6.0\TablaDePosiciones.genruntimeconfig.cache
+C:\Users\linda\Desktop\umg linda daniela\SEMESTRE 5\Progra 3\Proyecto1\TablaDePosiciones\TablaDePosiciones\bin\Debug\net6.0\Newtonsoft.Json.dll
+C:\Users\linda\Desktop\umg linda daniela\SEMESTRE 5\Progra 3\Proyecto1\TablaDePosiciones\TablaDePosiciones\obj\Debug\net6.0\TablaDePosiciones.csproj.CopyComplete

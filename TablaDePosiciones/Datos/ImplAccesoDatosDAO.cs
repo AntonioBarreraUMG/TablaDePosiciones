@@ -19,13 +19,23 @@ namespace TablaDePosiciones.Datos
         }
 
         public string[,] leerDatos()
+
         {
+            var leido = obtenerMatrizDeJason();
+            var lista=desserializarJsonFile(leido);
+            /*
+            string[,] MatrizdeJson;
             
-            var leido = obtenerMatrizDeJason;
-            return desserializarJsonFile(leido);
+            List<string> Lista = desserializarJsonFile(leido);
+            for(int i = 0; i < Lista.Count; i++)
+            {
+                string[] 
+            }*/
+            return null;
         }
 
-        private static string _path = @"../archivo.json";
+        private static string _path = @"C:\JSON\archivo.json";
+
         public static string SerializarJsonFile(string[,] matriz)
         {
             string matrizJson = JsonConvert.SerializeObject(matriz, Formatting.Indented);
@@ -35,17 +45,20 @@ namespace TablaDePosiciones.Datos
         public static String obtenerMatrizDeJason()
         {
             string MatrizDeJason;
-            /*el reader es para leer un archivo de disco*/ using (var reader = new StreamReader(_path))
+            /*el reader es para leer un archivo de disco*/
+            using (var reader = new StreamReader(_path))
             {
                 MatrizDeJason = reader.ReadToEnd();
             }
             return MatrizDeJason;
         }
 
-        public static void desserializarJsonFile(string MatrizDeJason)
+        public static List<string> desserializarJsonFile(string MatrizDeJason)
         {
-            Console.WriteLine(MatrizDeJason);
-            var leido = JsonConvert.DeserializeObject<List<>>(MatrizDeJason) ;
+            
+            var leido = JsonConvert.DeserializeObject<List<string>>(MatrizDeJason);
+            Console.WriteLine(leido);
+            return leido;
         }
     }
 }
