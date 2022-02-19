@@ -10,55 +10,45 @@ namespace TablaDePosiciones.Datos
 
     class ImplAccesoDatosDAO : InterfazAccesoDatos
     {
+        private static string _path = @"C:\tmp\archivo.json";
 
-
-
-        public void escribirDatos(string[,] matriz)
+        public bool escribirDatos(List<Equipo> listaEquipos)
         {
-            File.WriteAllText(_path, SerializarJsonFile(matriz));
-        }
-
-        public string[,] leerDatos()
-
-        {
-            var leido = obtenerMatrizDeJason();
-            var lista=desserializarJsonFile(leido);
-            /*
-            string[,] MatrizdeJson;
-            
-            List<string> Lista = desserializarJsonFile(leido);
-            for(int i = 0; i < Lista.Count; i++)
+            try
             {
-                string[] 
-            }*/
-            return null;
-        }
-
-        private static string _path = @"C:\JSON\archivo.json";
-
-        public static string SerializarJsonFile(string[,] matriz)
-        {
-            string matrizJson = JsonConvert.SerializeObject(matriz, Formatting.Indented);
-           return matrizJson;
-        }
-
-        public static String obtenerMatrizDeJason()
-        {
-            string MatrizDeJason;
-            /*el reader es para leer un archivo de disco*/
-            using (var reader = new StreamReader(_path))
+                File.WriteAllText(_path, SerializarJsonFile(listaEquipos));
+                return true;
+            } 
+            catch (Exception e)
             {
-                MatrizDeJason = reader.ReadToEnd();
+                Console.WriteLine("Error al escribir el archivo: " + e);
             }
-            return MatrizDeJason;
+            return false;
         }
 
-        public static List<string> desserializarJsonFile(string MatrizDeJason)
+        public List<Equipo> leerDatos()
         {
-            
-            var leido = JsonConvert.DeserializeObject<List<string>>(MatrizDeJason);
-            Console.WriteLine(leido);
-            return leido;
+            string listaJson = null;
+            try
+            {
+                using (var reader = new StreamReader(_path))
+                {
+                    listaJson = reader.ReadToEnd();
+                }
+            } catch (Exception e)
+            {
+                Console.WriteLine("Error al leer el archivo: " + e);
+            }
+            return DeserializarJsonFile(listaJson);
+        }
+
+        public static string SerializarJsonFile(List<Equipo> listaEquipos)
+        {
+            return JsonConvert.SerializeObject(listaEquipos, Formatting.Indented); 
+        }
+        public static List<Equipo> DeserializarJsonFile(string listaSerializada)
+        {
+            return JsonConvert.DeserializeObject<List<Equipo>>(listaSerializada);
         }
     }
 }

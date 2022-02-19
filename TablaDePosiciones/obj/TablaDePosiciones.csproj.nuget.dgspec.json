@@ -1,26 +1,21 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\linda\\Desktop\\umg linda daniela\\SEMESTRE 5\\Progra 3\\Proyecto1\\TablaDePosiciones\\TablaDePosiciones\\TablaDePosiciones.csproj": {}
+    "C:\\Users\\jeant\\source\\repos\\TablaDePosiciones\\TablaDePosiciones\\TablaDePosiciones.csproj": {}
   },
   "projects": {
-    "C:\\Users\\linda\\Desktop\\umg linda daniela\\SEMESTRE 5\\Progra 3\\Proyecto1\\TablaDePosiciones\\TablaDePosiciones\\TablaDePosiciones.csproj": {
+    "C:\\Users\\jeant\\source\\repos\\TablaDePosiciones\\TablaDePosiciones\\TablaDePosiciones.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\linda\\Desktop\\umg linda daniela\\SEMESTRE 5\\Progra 3\\Proyecto1\\TablaDePosiciones\\TablaDePosiciones\\TablaDePosiciones.csproj",
+        "projectUniqueName": "C:\\Users\\jeant\\source\\repos\\TablaDePosiciones\\TablaDePosiciones\\TablaDePosiciones.csproj",
         "projectName": "TablaDePosiciones",
-        "projectPath": "C:\\Users\\linda\\Desktop\\umg linda daniela\\SEMESTRE 5\\Progra 3\\Proyecto1\\TablaDePosiciones\\TablaDePosiciones\\TablaDePosiciones.csproj",
-        "packagesPath": "C:\\Users\\linda\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\linda\\Desktop\\umg linda daniela\\SEMESTRE 5\\Progra 3\\Proyecto1\\TablaDePosiciones\\TablaDePosiciones\\obj\\",
+        "projectPath": "C:\\Users\\jeant\\source\\repos\\TablaDePosiciones\\TablaDePosiciones\\TablaDePosiciones.csproj",
+        "packagesPath": "C:\\Users\\jeant\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\jeant\\source\\repos\\TablaDePosiciones\\TablaDePosiciones\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\",
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\linda\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+          "C:\\Users\\jeant\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net6.0"

@@ -8,8 +8,7 @@ namespace TablaDePosiciones.Datos
 {
     interface InterfazAccesoDatos
     {
-        public string[,] leerDatos();
-        public void escribirDatos(string[,] matriz);
-        
+        public List<Equipo> leerDatos();
+        public bool escribirDatos(List<Equipo> listaEquipos);
     }
 }
